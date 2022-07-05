@@ -10,6 +10,48 @@ const createNewSale = async () => {
   };
 };
 
+const serializeAllSales = (sales) =>
+  sales.map(({ id, date, product_id: productId, quantity }) => ({
+    saleId: id,
+    date,
+    productId,
+    quantity,
+  }));
+
+const getAllSales = async () => {
+  const query = `SELECT id, date, product_id, quantity
+  FROM sales AS sal
+  JOIN sales_products AS spr
+  ON sal.id = spr.sale_id
+  ORDER BY id`;
+
+  const [sales] = await connection.execute(query);
+
+  return serializeAllSales(sales);
+};
+
+const serializeSaleById = (sale) =>
+  sale.map(({ date, product_id: productId, quantity }) => ({
+    date,
+    productId,
+    quantity,
+  }));
+
+const getSaleById = async (id) => { 
+  const query = `SELECT date, product_id, quantity
+  FROM sales AS sal
+  JOIN sales_products AS spr
+  ON sal.id = spr.sale_id
+  WHERE id = ?
+  ORDER BY id, product_id;`;
+
+  const [sale] = await connection.execute(query, [id]);
+
+  return serializeSaleById(sale);
+};
+
 module.exports = {
   createNewSale,
+  getAllSales,
+  getSaleById,
 };

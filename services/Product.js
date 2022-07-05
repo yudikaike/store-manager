@@ -1,7 +1,7 @@
 const Product = require('../models/Product');
 
 const getAll = async () => {
-  const products = await Product.getAll();
+  const products = await Product.getAllProducts();
 
   return products;
 };

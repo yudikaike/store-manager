@@ -4,9 +4,13 @@ const router = express.Router();
 
 const Product = require('../controllers/Product');
 
+const { createNewProduct } = require('../controllers/Product');
+
+const { validateProductName } = require('../middlewares/validation');
+
 router.get('/', Product.getAll);
 
-router.post('/', Product.createNewProduct);
+router.post('/', validateProductName, createNewProduct);
 
 router.get('/:id', Product.findById);
 

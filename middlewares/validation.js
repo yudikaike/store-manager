@@ -1,3 +1,5 @@
+const { getAllProducts } = require('../models/Product');
+
 const validateProductName = (req, res, next) => {
   const { name } = req.body;
 
@@ -14,6 +16,41 @@ const validateProductName = (req, res, next) => {
   next();
 };
 
+const validateProduct = async (req, res, next) => {
+  const products = req.body;
+
+  if (products.some(({ productId }) => productId === undefined)) {
+    return res.status(400).json({ message: '"productId" is required' });
+  }
+
+  const allProducts = await getAllProducts();
+  const allProductIds = allProducts.map(({ id }) => id);
+
+  if (products.some(({ productId }) => allProductIds.every((id) => productId !== id))) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+
+  next();
+};
+
+const validateQuantity = (req, res, next) => {
+  const products = req.body;
+
+  if (products.some(({ quantity }) => quantity === undefined)) {
+    return res.status(400).json({ message: '"quantity" is required' });
+  }
+
+  if (products.some(({ quantity }) => quantity <= 0)) {
+    return res
+      .status(422)
+      .json({ message: '"quantity" must be greater than or equal to 1' });
+  }
+
+  next();
+};
+
 module.exports = {
   validateProductName,
+  validateProduct,
+  validateQuantity,
 };

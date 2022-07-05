@@ -14,7 +14,22 @@ const findById = async (id) => {
   return product[0];
 };
 
+const isValid = (name) => {
+  if (!name || typeof name !== 'string') return false;
+
+  return true;
+};
+
+const createNewProduct = async (name) => {
+  if (!isValid(name)) return null;
+
+  const product = await Product.createNewProduct(name);
+
+  return product;
+};
+
 module.exports = {
   getAll,
   findById,
+  createNewProduct,
 };

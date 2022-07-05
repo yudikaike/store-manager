@@ -1,4 +1,5 @@
 const Product = require('../services/Product');
+const { deleteProduct } = require('../models/Product');
 
 const getAll = async (_req, res) => {
   const products = await Product.getAll();
@@ -33,9 +34,18 @@ const updateProduct = async (req, res) => {
   res.status(200).json(product);
 };
 
+const deleteProductController = async (req, res) => {
+  const { id } = req.params;
+
+  await deleteProduct(id);
+
+  res.status(204).end();
+};
+
 module.exports = {
   getAll,
   findById,
   createNewProduct,
   updateProduct,
+  deleteProductController,
 };

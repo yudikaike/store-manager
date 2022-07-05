@@ -62,15 +62,15 @@ const validateSaleId = async (req, res, next) => {
   next();
 };
 
-const validateUpdateId = async (req, res, next) => {
-  const { id: updateId } = req.params;
+const validateId = async (req, res, next) => {
+  const { id: queryId } = req.params;
 
   const allProducts = await getAllProducts();
 
-  if (allProducts.every(({ id }) => id !== Number(updateId))) {
+  if (allProducts.every(({ id }) => id !== Number(queryId))) {
     return res.status(404).json({ message: 'Product not found' });
   }
-  
+
   next();
 };
 
@@ -79,5 +79,5 @@ module.exports = {
   validateProduct,
   validateQuantity,
   validateSaleId,
-  validateUpdateId,
+  validateId,
 };

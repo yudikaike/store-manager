@@ -12,7 +12,7 @@ const productMock = { id: 1, name: "Martelo de Thor" };
 
 describe('Retorna todos os produtos do banco de dados', () => {
   it('quando é chamado', async () => {
-    const response = await ProductModel.getAll();
+    const response = await ProductModel.getAllProducts();
 
     expect(response).to.be.deep.equal(allProductsMock);
   })

@@ -28,8 +28,15 @@ const createNewProduct = async (name) => {
   return product;
 };
 
+const updateProduct = async (name, id) => {
+  const product = await Product.updateProduct(name, id);
+
+  return product;
+};
+
 module.exports = {
   getAll,
   findById,
   createNewProduct,
+  updateProduct,
 };

@@ -54,9 +54,33 @@ const deleteSale = async (id) => {
   await connection.execute('DELETE FROM sales WHERE id = ?', [id]);
 };
 
+const serializeUpdatedSale = (sale) =>
+  sale.map(({ product_id: productId, quantity }) => ({
+    productId,
+    quantity,
+  }));
+
+const updateSale = async (products, id) => {
+  const query = 'UPDATE sales_products SET quantity = ? WHERE sale_id = ? AND product_id = ?';
+
+  await Promise.all(products.map(({ productId, quantity }) =>
+    connection.execute(query, [quantity, id, productId])));
+
+  const newQuery = `SELECT product_id, quantity 
+  FROM sales_products WHERE sale_id = ? ORDER BY product_id;`;
+
+  const [updatedSale] = await connection.execute(newQuery, [id]);
+
+  return {
+    saleId: id,
+    itemsUpdated: serializeUpdatedSale(updatedSale),
+  };
+};
+
 module.exports = {
   createNewSale,
   getAllSales,
   getSaleById,
   deleteSale,
+  updateSale,
 };

@@ -1,4 +1,4 @@
-const { getAllSales, getSaleById, deleteSale } = require('../models/Sale');
+const { getAllSales, getSaleById, deleteSale, updateSale } = require('../models/Sale');
 
 const allSalesController = async (_req, res) => {
   const sales = await getAllSales();
@@ -22,8 +22,18 @@ const deleteSaleController = async (req, res) => {
   res.status(204).end();
 };
 
+const updateSaleController = async (req, res) => {
+  const { id } = req.params;
+  const products = req.body;
+
+  const updatedSale = await updateSale(products, id);
+
+  res.status(200).json(updatedSale);
+};
+
 module.exports = {
   allSalesController,
   getSaleByIdController,
   deleteSaleController,
+  updateSaleController,
 };

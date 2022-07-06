@@ -9,7 +9,7 @@ const {
   updateProduct,
   deleteProductController } = require('../controllers/Product');
 
-const { validateProductName, validateId } = require('../middlewares/validation');
+const { validateProductName, validateProductId } = require('../middlewares/validation');
 
 router.get('/', Product.getAll);
 
@@ -17,8 +17,8 @@ router.post('/', validateProductName, createNewProduct);
 
 router.get('/:id', Product.findById);
 
-router.put('/:id', validateId, validateProductName, updateProduct);
+router.put('/:id', validateProductId, validateProductName, updateProduct);
 
-router.delete('/:id', validateId, deleteProductController);
+router.delete('/:id', validateProductId, deleteProductController);
 
 module.exports = router;

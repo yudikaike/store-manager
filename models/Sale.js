@@ -50,8 +50,13 @@ const getSaleById = async (id) => {
   return serializeSaleById(sale);
 };
 
+const deleteSale = async (id) => {
+  await connection.execute('DELETE FROM sales WHERE id = ?', [id]);
+};
+
 module.exports = {
   createNewSale,
   getAllSales,
   getSaleById,
+  deleteSale,
 };

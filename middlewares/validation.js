@@ -62,7 +62,7 @@ const validateSaleId = async (req, res, next) => {
   next();
 };
 
-const validateId = async (req, res, next) => {
+const validateProductId = async (req, res, next) => {
   const { id: queryId } = req.params;
 
   const allProducts = await getAllProducts();
@@ -79,5 +79,5 @@ module.exports = {
   validateProduct,
   validateQuantity,
   validateSaleId,
-  validateId,
+  validateProductId,
 };

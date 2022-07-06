@@ -39,10 +39,20 @@ const deleteProduct = async (id) => {
   await connection.execute(query, [id]);
 };
 
+const searchProduct = async (query) => {
+  const searchQuery = 'SELECT * FROM products';
+  const [products] = await connection.execute(searchQuery);
+
+  const filteredProducts = products.filter(({ name }) => name.includes(query));
+
+  return filteredProducts;
+};
+
 module.exports = {
   getAllProducts,
   findById,
   createNewProduct,
   updateProduct,
   deleteProduct,
+  searchProduct,
 };

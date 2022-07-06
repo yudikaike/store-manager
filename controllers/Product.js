@@ -1,5 +1,5 @@
 const Product = require('../services/Product');
-const { deleteProduct } = require('../models/Product');
+const { deleteProduct, searchProduct } = require('../models/Product');
 
 const getAll = async (_req, res) => {
   const products = await Product.getAll();
@@ -42,10 +42,19 @@ const deleteProductController = async (req, res) => {
   res.status(204).end();
 };
 
+const searchProductController = async (req, res) => {
+  const { q } = req.query;
+
+  const searchedProduct = await searchProduct(q);
+
+  res.status(200).json(searchedProduct);
+};
+
 module.exports = {
   getAll,
   findById,
   createNewProduct,
   updateProduct,
   deleteProductController,
+  searchProductController,
 };
